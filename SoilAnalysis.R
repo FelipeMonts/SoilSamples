@@ -56,4 +56,39 @@ library(openxlsx)
 # 
 # library(magick)
 
+###############################################################################################################
+#                           Read the results from the Lab  
+###############################################################################################################
+
+Lab.Results<-readWorkbook("D:\\Felipe\\CCC Based Experiments\\StrategicTillage_NitrogenLosses_OrganicCoverCrops\\Data\\Soil\\Soil2022\\S22-51678_S22-51917 Montes Soil data.xlsx", sheet=1) ;
+
+head(Lab.Results)
+
+names(Lab.Results)[2]<-"Soil.Lab.Analysis.Number" ;
+
+###############################################################################################################
+#                           Read the sample records information  
+###############################################################################################################
+
+Sample.Record<-readWorkbook("D:\\Felipe\\CCC Based Experiments\\StrategicTillage_NitrogenLosses_OrganicCoverCrops\\Data\\Soil\\Soil2022\\SoilAnalysis2022.xlsx", sheet= "SoilAnalysis") ;
+
+head(Sample.Record)
+
+Sample.Record$Sample.Date<-convertToDate(Sample.Record$Date) ;
+
+head(Sample.Record)
+
+###############################################################################################################
+#                          Match the lab results with the sample records
+###############################################################################################################
+
+Sample.Lab.Analysis<-merge(Lab.Results,Sample.Record,by="Soil.Lab.Analysis.Number");
+
+head(Sample.Lab.Analysis)
+
+###############################################################################################################
+#                         Write the lab analysis to an Excel spreadsheet
+###############################################################################################################
+
+write.xlsx(Sample.Lab.Analysis,"D:\\Felipe\\CCC Based Experiments\\StrategicTillage_NitrogenLosses_OrganicCoverCrops\\Data\\Soil\\Soil2022\\SoilAnalysisResults2022.xlsx",overwrite = T)
 
